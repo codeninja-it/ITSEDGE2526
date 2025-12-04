@@ -1,0 +1,67 @@
+<html>
+
+	<head>
+		<title>Scheda campionamento</title>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="asset/stile.css" />
+	</head>
+
+	<body>
+		<h1>Scheda pianta</h1>
+		<table>
+			<!-- Qui l'utente inserirà le prime due voci di scheda -->
+			<tr>
+				<td>Fila</td>
+				<td>
+					<input type="number" min="1" max="15" value="3" /> 
+				</td>
+				<td>Numero</td>
+				<td>
+					<input type="number" min="1" max="99" value="1" />
+				</td>
+			</tr>
+			
+			<!-- Questo lo si fa poi... -->
+			<tr>
+				<td colspan="4">Mappa coming soon!</td>
+			</tr>
+			
+			<!-- Qua ci mettiamo una tendina valori -->
+			<tr>
+				<td>Stato</td>
+				<td colspan="3">
+					<select>
+						<option value="1">morta</option>
+						<option value="2">appassita</option>
+						<option value="3">normale</option>
+						<option value="4">buono</option>
+						<option value="5">ottimo</option>
+					</select>
+				</td>
+			</tr>
+			
+			<!-- Prima che ci si confonda è la data! -->
+			<tr>
+				<td>Piantata</td>
+				<td colspan="3">
+					<input type="date" value="2025-12-24" />
+				</td>
+			</tr>
+			
+			<!-- Qua l'utente può scrivere quanto vuole e su più righe -->
+			<tr>
+				<td valign="top">Note</td>
+				<td colspan="3">
+					<textarea cols="50" rows="10" placeholder="Scrivi qui le tue note..." ></textarea>
+				</td>
+			</tr>
+		</table>
+		
+		<!-- Da qui l'utente potrà salvare la scheda -->
+		<p align="center">
+			<button>salva</button>
+		</p>
+		
+	</body>
+
+</html>

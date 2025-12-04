@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<title>Tabelline!</title>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td>base</td>
+				<td><input id="base" type="number" value="2" /></td>
+				<td>rep</td>
+				<td><input id="ripetizioni" type="number" value="10" /></td>
+			</tr>
+		</table>
+		
+		<button onclick="tabellina(false);">moltiplicazione</button>
+		<button onclick="tabellina(true);">divisione</button>
+		
+		<textarea id="lavagna"></textarea>
+		<script>
+		
+			function skam() {
+				var numero = 2;
+				numero = "due";
+				// mando un messaggio secco al mio utente
+				alert("HAI VINTO! SEI IL VISITATORE NUMERO " + numero);
+				// chiedo se lo vuole ottenere
+				var risposta = confirm("LO VUOI OTTENERE?");
+				if(risposta)
+					var iban = prompt("ALLORA DIMMI IL TUO IBAN!");
+				else
+					alert("OUCH... ...sarà per la prossima volta...");
+			}
+
+			// funzione per la stampa delle tabelline
+			function tabellina(divisione){
+				// aggancio i miei componenti di input
+				var base = document.getElementById("base");
+				var ripetizioni = document.getElementById("ripetizioni");
+				// aggancio la lavagna
+				var lavagna = document.getElementById("lavagna");
+				// resetto il contatore
+				var contatore = 0;
+				// ripeto fino a che il contatore è minore delle rep
+				while(contatore < ripetizioni.value){
+					// incremento il contatore
+					contatore++;
+					// calcolo il risultato
+					var numero;
+					if(divisione)
+						numero = base.value / contatore;
+					else
+						numero = base.value * contatore;
+					var risultato = base.value + " X " + contatore + " = " + numero;
+					// stampo il risultato
+					lavagna.value += risultato + "\n";
+					
+				}
+			}
+			
+			
+				
+			
+		</script>
+	</body>
+</html>
