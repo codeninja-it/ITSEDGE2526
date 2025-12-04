@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>Body Mass Index</title>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		<h1>BMI Calculator</h1>
+		<p>Inserisci i tuoi dati di peso ed altezza e clicca calcola!</p>
+		<p align="center">
+			<input id="peso" type="number" min="20" step="0.1" placeholder="peso in chili" onchange="Calcola();" />
+			<input id="altezza" type="number" min="1" max="3" step="0.01" placeholder="altezza in metri" onchange="Calcola();" />
+		</p>
+		<p align="center">
+			<button onclick="Calcola();">calcola</button>
+		</p>
+		<p align="center">
+			<textarea id="lavagna"></textarea>
+		</p>
+		<script>
+			function Calcola(){
+				var txtPeso = document.getElementById("peso");
+				var txtAltezza = document.getElementById("altezza");
+				var txtLavagna = document.getElementById("lavagna");
+				
+				var bmi = txtPeso.value / (txtAltezza.value * txtAltezza.value);
+				
+				if(bmi < 18.5){
+					txtLavagna.value = "Peso troppo basso!!!!";
+				} else if (bmi < 24.9){
+					txtLavagna.value = "Peso regolare";
+				} else if (bmi < 29.9){
+					txtLavagna.value = "Leggero sovrappeso";
+				} else if (bmi < 35){
+					txtLavagna.value = "Sovrappeso";
+				} else {
+					txtLavagna.value = "Da controllare...";
+				}
+			}			
+		</script>
+	</body>
+</html>
