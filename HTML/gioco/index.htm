@@ -7,7 +7,19 @@
 	<body>
 		<h1>Gioco dell'Oca</h1>
 		<p>Clicca sul pulsante tira per lanciare il dado!</p>
-		<button>tira</button>
+		<button onclick="Tiro();">tira dado</button>
+		<button>ricomincia</button>
+		<table align="center">
+			<tr>
+				<td align="center">Utente</td>
+				<td align="center">PC</td>
+			</tr>
+			<tr>
+				<td><input id="plr1" /></td>
+				<td><input id="plr2" /></td>
+			</tr>
+		</table>
+		
 		<script>
 			// tutte le variabili che devo usare
 			var tabellone;
@@ -39,6 +51,9 @@
 					7, 0, -12, 1, 0, 
 					2, -5, 0, 2, -19
 				];
+				console.log("--==INIZIO PARTITA==--");
+				console.log("utente:\t" + utente);
+				console.log("pc:\t" + pc);
 			}
 			
 			function turno(pedina, percorso){
@@ -52,14 +67,32 @@
 				return pedina + modificatore;
 			}
 			
+			function turnoUtente(){
+				utente = turno(utente, tabellone);
+			}
+			
 			function turnoPC(){
+				pc = turno(pc, tabellone);
 			}
 			
 			function controllo(){
+				if(isNaN(utente)){
+					console.warn("--==!!!HAI VINTO!!!==--");
+				} else if(isNaN(pc)){
+					console.error("--==!?!HAI PERSO!?!==--");
+				} else {
+					console.log("utente:\t" + utente);
+					console.log("pc:\t" + pc);
+				}
 			}
 			
-			function congratulazioni(){
+			function Tiro(){
+				turnoUtente();
+				turnoPC();
+				controllo();
 			}
+			
+			preparazione();
 			
 		</script>
 	</body>
