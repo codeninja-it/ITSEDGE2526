@@ -8,7 +8,7 @@
 		<h1>Gioco dell'Oca</h1>
 		<p>Clicca sul pulsante tira per lanciare il dado!</p>
 		<button onclick="Tiro();">tira dado</button>
-		<button>ricomincia</button>
+		<button onclick="preparazione();">ricomincia</button>
 		<table align="center">
 			<tr>
 				<td align="center">Utente</td>
@@ -21,10 +21,15 @@
 		</table>
 		
 		<script>
+			// https://github.com/codeninja-it/ITSEDGE2526/
+		
 			// tutte le variabili che devo usare
 			var tabellone;
 			var utente;
 			var pc;
+			
+			var txtUtente = document.getElementById("plr1");
+			var txtPC = document.getElementById("plr2");
 			
 			function D6(){
 				// estraggo la mia percentuale
@@ -44,6 +49,8 @@
 				// posizioniamo le pedine
 				utente = 0;
 				pc = 0;
+				txtUtente.value = 0;
+				txtPC.value = 0;
 				// e costruiamo il tabellone
 				tabellone = [
 					0, 0, 2, 0, 0, 
@@ -78,11 +85,15 @@
 			function controllo(){
 				if(isNaN(utente)){
 					console.warn("--==!!!HAI VINTO!!!==--");
+					txtUtente.value = "WIN";
+					txtPC.value = "LOOSE";
 				} else if(isNaN(pc)){
 					console.error("--==!?!HAI PERSO!?!==--");
 				} else {
 					console.log("utente:\t" + utente);
 					console.log("pc:\t" + pc);
+					txtUtente.value = utente;
+					txtPC.value = pc;
 				}
 			}
 			
