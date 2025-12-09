@@ -14,10 +14,31 @@
 			var utente;
 			var pc;
 			
+			function D6(){
+				// estraggo la mia percentuale
+				var seed = Math.random();
+				// lo zoommo sulle possibilità che ho
+				var posizione = seed * 6;
+				// tolgo i decimali segandoli
+				posizione = Math.floor(posizione);
+				// sposto la mia serie 0->5 di una posizione sulla destra
+				// ovvero 1->6
+				posizione = posizione + 1;
+				// restituisco all'utente
+				return posizione;
+			}
+			
 			function preparazione(){
+				// posizioniamo le pedine
 				utente = 0;
 				pc = 0;
-				tabellone = [];
+				// e costruiamo il tabellone
+				tabellone = [
+					0, 0, 2, 0, 0, 
+					-4, 3, 0, -1, 0, 
+					7, 0, -12, 1, 0, 
+					2, -5, 0, 2, -19
+				];
 			}
 			
 			function turnoUtente(){
