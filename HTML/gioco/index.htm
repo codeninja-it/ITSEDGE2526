@@ -20,7 +20,7 @@
 				// lo zoommo sulle possibilità che ho
 				var posizione = seed * 6;
 				// tolgo i decimali segandoli
-				posizione = Math.floor(posizione);
+				posizione = parseInt(posizione);
 				// sposto la mia serie 0->5 di una posizione sulla destra
 				// ovvero 1->6
 				posizione = posizione + 1;
@@ -41,7 +41,15 @@
 				];
 			}
 			
-			function turnoUtente(){
+			function turno(pedina, percorso){
+				// lancia il dado
+				var dado = D6();
+				// sposto la pedina alla nuova casella
+				pedina = pedina + dado;
+				// controllo il malus o il bonus
+				var modificatore = percorso[pedina];
+				// sposto di nuovo la pedina
+				return pedina + modificatore;
 			}
 			
 			function turnoPC(){
