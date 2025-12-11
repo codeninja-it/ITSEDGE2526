@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" href="asset/stile.css" />
+		<meta charset="UTF-8" />
+		<script src="asset/codice.js"></script>
+	</head>
+	<body>
+		<h1>Offusca il tuo testo!</h1>
+		<center>
+			<textarea id="originale"></textarea>
+			<br/>
+			<button id="btnCifra">cifra</button><button>decifra</button>
+			<br/>
+			<textarea id="cifrato"></textarea>
+		</center>
+		<script>
+			// mi conetto ai campi che mi servono
+			var txtOriginale = document.getElementById("originale");
+			var txtCifrato = document.getElementById("cifrato");
+			var btnCalcola = document.getElementById("btnCifra");
+			
+			// mi creo qui una funzione
+			function esegui(){
+				txtCifrato.value = Cifra(txtOriginale.value, 3);
+			}
+			
+			// la aggancio all'evento
+			btnCalcola.onclick = esegui;
+			
+		</script>
+	</body>
+</html>
