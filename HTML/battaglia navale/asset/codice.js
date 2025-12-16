@@ -3,9 +3,11 @@
 var nemici;
 var campo;
 var comunicazioni;
-var naviAffondate;
+var nemiciColpiti;
+var nemiciPresenti;
 var colpiSparati;
 var colpiDisponibili;
+var inGame = false;
 
 // icone da usare
 var icona = "&#x1F333;";
@@ -14,6 +16,7 @@ var iconaVuota = "&nbsp;";
 
 // funzioni generali di gioco
 function IniziaBattaglia(righe, colonne){
+	inGame = true;
 	// caricare i nemici
 	CaricaNemici(righe, colonne);
 	// resettare i contatori e collegare il DOM (document object model)
@@ -24,10 +27,13 @@ function IniziaBattaglia(righe, colonne){
 
 function CaricaNemici(righe, colonne){
 	nemici = [];
+	nemiciPresenti = 0;
 	for(let y=0; y < righe; y++){
 		let riga = [];
 		for(let x=0; x < colonne; x++){
 			riga[x] = parseInt(Math.random() * 2);
+			if(riga[x] == 1)
+				nemiciPresenti++;
 		}
 		nemici[y] = riga;
 	}
@@ -37,7 +43,7 @@ function CaricaNemici(righe, colonne){
 function ResettaContatori(colpi){
 	campo = document.getElementById("battaglia");
 	comunicazioni = document.getElementById("comunicazioni");
-	naviAffondate = 0;
+	nemiciColpiti = 0;
 	colpiSparati = 0;
 	colpiDisponibili = colpi;
 	comunicazioni.innerHTML = "Hai a disposizione <b>" + 
@@ -70,15 +76,40 @@ function CostruisciCampo(righe, colonne){
 }
 
 function ClickSuCella(evento){
-	let cella = evento.srcElement;
-	let x = cella.dataset["x"];
-	let y = cella.dataset["y"];
-	if(nemici[y][x] == 1){
-		cella.innerHTML = iconaPiena;
-		comunicazioni.innerHTML = "L'hai preso!";
+	if(inGame){
+		colpiSparati++;
+		let cella = evento.srcElement;
+		let x = cella.dataset["x"];
+		let y = cella.dataset["y"];
+		if(nemici[y][x] == 1){
+			nemiciColpiti++;
+			cella.innerHTML = iconaPiena;
+			comunicazioni.innerHTML = "Colpito!<br>"
+		} else {
+			cella.innerHTML = iconaVuota;
+			comunicazioni.innerHTML = "Mancato, era vicino ma nulla...<br>";
+		}
+										
+		var colpiRimasti = colpiDisponibili - colpiSparati;
+		var nemiciRimasti = nemiciPresenti - nemiciColpiti;
+		
+		comunicazioni.innerHTML += " Ti mancano ancora <b>" + 
+										nemiciRimasti + 
+										"</b> nemici da trovare e <b>"+ 
+										colpiRimasti + 
+										"</b> colpi!";
+		
+		if(nemiciRimasti > colpiRimasti){
+			comunicazioni.innerHTML = "Mi dispiace... ...purtroppo abbiamo perso...";
+			inGame = false;
+		}
+		else if(nemiciRimasti < 1){
+			comunicazioni.innerHTML = "Abbiamo vinto!";
+			inGame = false;
+		}
 	} else {
-		cella.innerHTML = iconaVuota;
-		comunicazioni.innerHTML = "Peccato... era vicino ma nulla...";
+		let nuova = confirm("La partita è finita, vuoi iniziarne un'altra?");
+		if(nuova)
+			IniziaBattaglia(8,8);
 	}
-	//alert("Hai cliccato su (" + x + "," + y + ")");
 }
