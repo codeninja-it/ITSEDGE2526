@@ -69,6 +69,16 @@ function CostruisciCampo(righe, colonne){
 	}
 }
 
-function ClickSuCella(){
-	
+function ClickSuCella(evento){
+	let cella = evento.srcElement;
+	let x = cella.dataset["x"];
+	let y = cella.dataset["y"];
+	if(nemici[y][x] == 1){
+		cella.innerHTML = iconaPiena;
+		comunicazioni.innerHTML = "L'hai preso!";
+	} else {
+		cella.innerHTML = iconaVuota;
+		comunicazioni.innerHTML = "Peccato... era vicino ma nulla...";
+	}
+	//alert("Hai cliccato su (" + x + "," + y + ")");
 }
