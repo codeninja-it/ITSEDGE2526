@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title>Post-it</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="title" content="Post-IT" />
+		<meta name="description" content="Un potente tool per il tuo ufficio!" />
+		
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+		
+		<link rel="stylesheet" href="asset/stile.css" />
+		<script src="asset/codice.js"></script>
+	</head>
+	
+	<body>
+		<h1 class="bg-warning text-white text-center p-2">Post-it!</h1>
+		
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9 col-sm-6">
+					<p>Un utile strumento per i tuoi progetti!</p>
+										
+					<div class="table-responsive shadow">
+						<table class="table table-sm table-hover">
+							<thead>
+								<tr>
+									<th>Nota</th>
+									<th class="w-25 text-end">Stato</th>
+									<th class="w-25">Cancella</th>
+								</tr>
+							</thead>
+							<tbody id="target">
+								<tr>
+									<td>Comprare il pane</td>
+									<td class="text-end">0%</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Fare regali</td>
+									<td class="text-end">25%</td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					
+					<div class="card">
+						<div class="card-header">
+							Nuovo post-it
+						</div>
+						<div class="card-body">
+							<textarea id="testo" class="form-control" placeholder="nota..."></textarea>
+							<input id="stato" class="form-range" type="range" min="0" max="100" value="50" />
+							<button id="aggiungi" class="btn btn-danger w-100">aggiungi</button>
+						</div>
+						<div class="card-footer">
+							Usa questo form per inserire i tuoi appunti
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			InizializzaPostIt("testo", "stato", "aggiungi", "target");
+		</script>
+	</body>
+</html>
