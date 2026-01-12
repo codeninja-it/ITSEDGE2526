@@ -37,17 +37,10 @@ class Categoria {
 		for(let i=0; i < this.Elementi.length; i++){
 			// dopo averne preso il riferimento in RAM
 			let elemento = this.Elementi[i];
-			// estraggo i campi che mi ha passato l'utente
-			let campi = Object.keys(daTrovare);
-			// per ognuno di loro
-			for(let n=0; n < campi.length; n++){
-				// ne prendo il nome
-				let campo = campi[n];
-				// se è valorizzato e uguale a quello dell'elemento in analisi
-				if(daTrovare[campo] != undefined && daTrovare[campo] == elemento[campo]){
-					// ho trovato quello che cercavo!
-					return elemento;
-				}
+			// controllo se è uguale alla ricerca dell'utente
+			if(this.Equals(elemento, daTrovare)){
+				// e nel caso glielo restituisco
+				return elemento;
 			}
 		}
 		// se dopo aver guardato tutti i libri non ho ancora
@@ -55,6 +48,20 @@ class Categoria {
 		// avverto l'utente che non c'è
 		return undefined;
 	}
+	
+	// controlla se i due oggetti sono uguali in tutti i loro parametri
+	Equals(elemento, daTrovare){
+		let campi = Object.keys(elemento);
+		let buono = true;
+		for(let n=0; n < campi.length && buono; n++){
+			let campo = campi[n];
+			if(daTrovare[campo] != undefined){
+				if(daTrovare[campo] != elemento[campo])
+					buono = false;
+			}
+		}
+		return buono;
+	}	
 	
 	// e toglierlo dalla collezione
 	Remove(daTrovare){
