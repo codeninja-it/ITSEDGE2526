@@ -1,0 +1,17 @@
+libro {
+    border-radius: .2em;
+    border: 1pt solid #80808059;
+    display: inline-block;
+    padding: .2em;
+    margin: .2em;
+    box-shadow: 5px 5px 5px #80808063;
+    width: 200px !important;
+}
+
+libro > titolo {
+	display: block;
+}
+
+libro > attributo {
+	display: block;
+}

@@ -9,6 +9,39 @@ class Libro {
 		this.InPrestito = inPrestito;
 	}
 	
+	Render(target){
+		//let cella = document.createElement("div");
+		//cella.classList.add("col-md-3");
+		
+		let libro = document.createElement("libro");
+		libro.innerHTML = "<titolo>" + this.Titolo + "</titolo>";
+		libro.innerHTML += "<attributo quale='Autore'>" + this.Autore + "</attributo>";
+		libro.innerHTML += "<attributo quale='Anno'>" + this.Anno + "</attributo>";
+		libro.innerHTML += "<attributo quale='Prezzo'>" + this.Prezzo + "</attributo>";
+		libro.innerHTML += "<attributo quale='InPrestito'>" + (this.inPrestito ? "si" : "no") + "</attributo>";
+		target.appendChild(libro);
+		
+		// let card = document.createElement("div");
+		// card.classList.add("card");
+		// card.classList.add("shadow");
+		
+		// let header = document.createElement("div");
+		// header.classList.add("card-header");
+		// header.innerHTML = this.Titolo;
+		// card.appendChild(header);
+		
+		// let body = document.createElement("div");
+		// body.classList.add("card-body");
+		// body.innerHTML = "<b>Autore: </b>" + this.Autore + "<br>";
+		// body.innerHTML += "<b>Anno: </b>" + this.Anno + "<br>";
+		// body.innerHTML += "<b>Prezzo: </b>" + this.Prezzo + "<br>";
+		// body.innerHTML += "<b>In prestito: </b>" + (this.inPrestito ? "si" : "no") + "<br>";
+		// card.appendChild(body);
+		
+		// cella.appendChild(card);		
+		//target.appendChild(cella);
+	}
+	
 }
 
 class Autore {
@@ -40,6 +73,17 @@ class Categoria {
 	constructor(nome, elementi){
 		this.Nome = nome;
 		this.Elementi = elementi;
+	}
+	
+	Render(target){
+		// devo trovare dove eseguire il mio rendering
+		let lavagna = document.getElementById(target);
+		lavagna.innerHTML = "";
+		// per ogni elemento che contengo
+		for(let i=0; i < this.Elementi.length; i++){
+			// gli chiedo di stamparsi a schermo
+			this.Elementi[i].Render(lavagna);
+		}
 	}
 	
 	// e cosa devono fare
