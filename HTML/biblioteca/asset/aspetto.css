@@ -1,17 +1,34 @@
 libro {
-    border-radius: .2em;
-    border: 1pt solid #80808059;
+	border-radius: var(--bs-border-radius);
+    border: 1pt solid var(--bs-border-color);
     display: inline-block;
     padding: .2em;
-    margin: .2em;
-    box-shadow: 5px 5px 5px #80808063;
-    width: 200px !important;
+    margin: 1em;
+    box-shadow: var(--bs-box-shadow);
+    min-width: 200px !important;
+    max-width: 300px !important;
+    overflow: hidden;
 }
 
 libro > titolo {
 	display: block;
+    background-color: var(--bs-gray-100);
+    margin: -.5em;
+    padding: .8em;
+    margin-bottom: 1em;
+    border-bottom: 1pt solid var(--bs-border-color);
+    font-weight: bold;
 }
 
 libro > attributo {
 	display: block;
+}
+
+libro > attributo::before {
+  font-weight: bold;
+  content: attr(nome) ": ";
+}
+
+libro > attributo::after {
+	content: attr(valore);
 }

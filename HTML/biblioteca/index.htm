@@ -14,7 +14,9 @@
 		<h1 class="bg-dark text-light p-3">Biblioteca</h1>
 		<div id="libri" class="row m-2 g-3"></div>
 		
-		<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">Nuovo</button>
+		<div class="text-end fixed-bottom p-3">
+			<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">Nuovo</button>
+		</div>
 
 		<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
 			<div class="offcanvas-header">
@@ -30,28 +32,29 @@
 					<label for="autore">Autore</label>
 					<input id="autore" class="form-control" />
 				</p>
+				<p>
+					<label for="anno">Anno</label>
+					<input id="anno" class="form-control" />
+				</p>
+				<p>
+					<label for="prezzo">Prezzo</label>
+					<input id="prezzo" class="form-control" />
+				</p>
 				<button class="btn btn-primary w-100" onclick="Inserisci();">salva</button>
 			</div>
-		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		</div>		
 		
 		<script>
-			DisegnaTabella(cucina, "libri");
+			cucina.Render("libri");
 			
 			function Inserisci(){
 				// aggancio i campi dove l'utente ha scritto
 				let titolo = document.getElementById("titolo");
 				let autore = document.getElementById("autore");
+				let anno = document.getElementById("anno");
+				let prezzo = document.getElementById("prezzo");
 				// creo ed inserisco un nuovo libro
-				cucina.Add( new Libro(titolo.value, autore.value) );
+				cucina.Add( new Libro(titolo.value, autore.value, anno.value, prezzo.value) );
 				// aggiorno la schermata
 				cucina.Render("libri");
 				

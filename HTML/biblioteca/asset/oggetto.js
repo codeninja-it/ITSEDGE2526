@@ -15,10 +15,10 @@ class Libro {
 		
 		let libro = document.createElement("libro");
 		libro.innerHTML = "<titolo>" + this.Titolo + "</titolo>";
-		libro.innerHTML += "<attributo quale='Autore'>" + this.Autore + "</attributo>";
-		libro.innerHTML += "<attributo quale='Anno'>" + this.Anno + "</attributo>";
-		libro.innerHTML += "<attributo quale='Prezzo'>" + this.Prezzo + "</attributo>";
-		libro.innerHTML += "<attributo quale='InPrestito'>" + (this.inPrestito ? "si" : "no") + "</attributo>";
+		libro.innerHTML += "<attributo nome='Autore' valore='" + this.Autore + "' />";
+		libro.innerHTML += "<attributo nome='Anno' valore='" + this.Anno + "' />";
+		libro.innerHTML += "<attributo nome='Prezzo' valore='" + this.Prezzo + "' />";
+		libro.innerHTML += "<attributo nome='InPrestito' valore='" + (this.inPrestito ? "si" : "no") + "' />";
 		target.appendChild(libro);
 		
 		// let card = document.createElement("div");
