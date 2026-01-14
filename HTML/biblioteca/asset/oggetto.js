@@ -11,7 +11,25 @@ class Libro {
 	
 }
 
-var libro1 = new Libro("Il Trono di Spade");
+class Autore {
+	constructor(nome, cognome){
+		this.Nome = nome;
+		this.Cognome = cognome;
+	}
+}
+
+class Biblioteca {
+	
+	constructor(nome){
+		this.Nome = nome;
+		this.Categorie = [];
+	}
+	
+}
+
+
+
+var libro1 = new Libro("Il Trono di Spade", "J.R.R. Martin");
 var libro2 = new Libro("La Spada si Shannara");
 var libro3 = new Libro("Antifragile");
 var libro4 = new Libro("In tavola con Gordon Ramsay");
@@ -78,7 +96,7 @@ class Categoria {
 
 var cucina = new Categoria("Cucina", [
 	new Libro("1000 ricette al microonde"),
-	new Libro("L'arte di cucina"),
+	new Libro("La scienza in cucina"),
 	new Libro("In tavola con Gordon Ramsay"),
 	new Libro("Orrori da Gustare")
 ]);
