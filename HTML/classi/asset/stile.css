@@ -1,0 +1,57 @@
+body {
+	background-color: #f3f3f3;
+	font-family:sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	background-color: white;
+	padding: .5em;
+	color: #79befb;
+}
+
+#target {
+	width: fit-content;
+	margin: auto;
+	border-radius: 1em;
+	overflow: hidden;
+	border: 1px solid #2196f382;
+	box-shadow: 5px 5px 5px #00000059;
+}
+
+#target > table {
+	box-shadow: 5px 5px 5px gray;
+	background-color: #e3f3fb;
+	border-collapse: collapse;
+}
+
+#target > button {
+	width: 100%;
+	background-color: #bacee0;
+	border: none;
+	box-shadow: 0 0 2px gray;
+	padding: .5em;
+}
+
+#target > button:hover {
+	box-shadow: 0 0 2px black;
+}
+
+#target > table > tr > .cella {
+	border: 0;
+	margin: 1em;
+	padding: 0;
+	width: 5px;
+	height: 5px;
+}
+
+.virus {
+	background-color: #a9dd6d;
+	box-shadow: 2px 2px 2px #808080ba;
+}
+
+.muro {
+	background-color: #dda96d;
+	box-shadow: 2px 2px 2px #808080ba;
+}
