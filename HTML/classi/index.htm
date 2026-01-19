@@ -9,8 +9,8 @@
 			#target > .cella {
 				display: inline-block;
 				border: 1px solid gray;
-				width: 2em;
-				height: 2em;
+				width: calc((100%/50)-2);
+				height: 50px;
 			}
 		</style>
 	</head>
@@ -23,7 +23,9 @@
 				constructor(raccoglitore, x, y){
 					// per prima cosa mi segno nel raccoglitore
 					this.griglia = raccoglitore;
-					raccoglitore.push(this);
+					if(raccoglitore[x] == undefined)
+						raccoglitore[x] = [];
+					raccoglitore[x][y] = this;
 					this.X = x;
 					this.Y = y;
 					// variabili globali del nostro oggetto
@@ -52,16 +54,41 @@
 				
 				// deve controllare lo stato della cella
 				Aggiorna(){
+					// conto i vicini di casa
+					let vicini = 0;
 					for(let x = -1; x < 2; x++){
 						for(let y = -1; y < 2; y++){
 							let aX = this.X + x;
 							let aY = this.Y + y;
+							// se non sono io
 							if(aX != this.X && aY != this.Y){
-								
+								// se la cella esiste
+								if(this.griglia[aX] != undefined && this.griglia[aX][aY] != undefined){
+									// se ha il virus
+									if(this.griglia[aX][aY].virus)
+										vicini++;
+								}
 							}
 						}
 					}
-					//this.tag.innerText = parseInt((Math.random() * 6) + 1);
+					// ora che sò quanti vicini ci sono
+					// posso stabilire la condizione successiva
+					if(vicini < 2 && this.virus){
+						this.virus = false;
+					} else if (vicini < 4 && this.virus){
+						this.virus = true;
+					} else if(this.virus) {
+						this.virus = false;
+					}
+					if(!this.virus && vicini == 3){
+						this.virus = true;
+					}
+					// aggiorno la visualizzazione per l'utente
+					if(this.virus){
+						this.tag.style.backgroundColor = "red";
+					} else {
+						this.tag.style.backgroundColor = "transparent";
+					}
 				}
 			}
 			
