@@ -40,7 +40,7 @@
 			class Cella {
 				constructor(raccoglitore, target, x, y){
 					// per prima cosa mi segno nel raccoglitore
-					this.griglia = raccoglitore;
+					this.Tabella = raccoglitore;
 					// per seconda cosa mi ricordo dove mi trovo
 					this.X = x;
 					this.Y = y;
@@ -49,6 +49,8 @@
 					
 					this.tag = document.createElement("td");
 					target.appendChild(this.tag);
+					this.tag.dataset["x"] = x;
+					this.tag.dataset["y"] = y;
 					
 					// setting dell'interfaccia utente
 					this.tag.classList.add("cella");
@@ -71,7 +73,7 @@
 				
 				// deve controllare lo stato della cella
 				Aggiorna(){
-					if(this.griglia.controllo){
+					if(this.Tabella.controllo){
 						// conto i vicini di casa
 						let vicini = 0;
 						for(let x = -1; x < 2; x++){
@@ -79,12 +81,13 @@
 								let aX = this.X + x;
 								let aY = this.Y + y;
 								// se non sono io
-								if(aX != this.X && aY != this.Y){
+								if(aX != this.X || aY != this.Y){
 									// se la cella esiste
-									if(this.griglia[aX] != undefined && this.griglia[aX][aY] != undefined){
+									if(this.Tabella.griglia[aX] != undefined && this.Tabella.griglia[aX][aY] != undefined){
 										// se ha il virus
-										if(this.griglia[aX][aY].virus)
+										if(this.Tabella.griglia[aX][aY].virus){
 											vicini++;
+										}
 									}
 								}
 							}
@@ -92,24 +95,24 @@
 						// per controllo riport il numero di vicini nella cella html
 						this.tag.dataset["vicini"] = vicini;
 						
-						// // ora che sò quanti vicini ci sono
-						// // posso stabilire la condizione successiva
-						// if(vicini < 2 && this.virus){
-						// 	this.virus = false;
-						// } else if (vicini < 4 && this.virus){
-						//	this.virus = true;
-						//} else if(this.virus) {
-						//	this.virus = false;
-						//}
-						//if(!this.virus && vicini == 3){
-						//	this.virus = true;
-						//}
-						//// aggiorno la visualizzazione per l'utente
-						//if(this.virus){
-						//	this.tag.style.backgroundColor = "red";
-						//} else {
-						//	this.tag.style.backgroundColor = "transparent";
-						//}
+						// ora che sò quanti vicini ci sono
+						// posso stabilire la condizione successiva
+						if(vicini < 2 && this.virus){
+						 	this.virus = false;
+						} else if (vicini < 4 && this.virus){
+							this.virus = true;
+						} else if(this.virus) {
+							this.virus = false;
+						}
+						if(!this.virus && vicini == 3){
+							this.virus = true;
+						}
+						// aggiorno la visualizzazione per l'utente
+						if(this.virus){
+							this.tag.style.backgroundColor = "red";
+						} else {
+							this.tag.style.backgroundColor = "transparent";
+						}
 					}
 				}
 			}
