@@ -6,36 +6,53 @@
 				background-color: lightgrey;
 			}
 			
-			#target > .cella {
-				display: inline-block;
+			#target > tr > .cella {
 				border: 1px solid gray;
-				width: calc((100%/50)-2);
-				height: 50px;
+				width: 10px;
+				height: 10px;
 			}
 		</style>
 	</head>
 	<body>
 		<!-- qui finiranno le nostre celle -->
-		<div id="target"></div>
+		<table id="target"></table>
 		<script>
+			class Tabella {
+				constructor(target, larghezza, altezza){
+					this.controllo = false;
+					
+					this.tag = document.getElementById(target);
+					
+					this.griglia = [];
+					for(let x = 0; x < larghezza; x++){
+						let elemento = document.createElement("tr");
+						let riga = [];
+						for(let y = 0; y < altezza; y++){
+							riga[y] = new Cella(this, elemento, x, y);
+						}
+						this.griglia[x] = riga;
+						this.tag.appendChild(elemento);
+					}
+				}
+			}
+		
 			// ricetta della singola cella
-			class cella {
-				constructor(raccoglitore, x, y){
+			class Cella {
+				constructor(raccoglitore, target, x, y){
 					// per prima cosa mi segno nel raccoglitore
 					this.griglia = raccoglitore;
-					if(raccoglitore[x] == undefined)
-						raccoglitore[x] = [];
-					raccoglitore[x][y] = this;
+					// per seconda cosa mi ricordo dove mi trovo
 					this.X = x;
 					this.Y = y;
 					// variabili globali del nostro oggetto
 					this.virus = false;
-					this.tag = document.createElement("div");
+					
+					this.tag = document.createElement("td");
+					target.appendChild(this.tag);
+					
 					// setting dell'interfaccia utente
 					this.tag.classList.add("cella");
-					// logica di inizializzazione
-					let target = document.getElementById("target");
-					target.appendChild(this.tag);
+					
 					setInterval(this.Aggiorna.bind(this), 500);
 					// la cella se cliccata permetterà all'utente
 					// di impostare se contiene il virus oppure no
@@ -54,50 +71,50 @@
 				
 				// deve controllare lo stato della cella
 				Aggiorna(){
-					// conto i vicini di casa
-					let vicini = 0;
-					for(let x = -1; x < 2; x++){
-						for(let y = -1; y < 2; y++){
-							let aX = this.X + x;
-							let aY = this.Y + y;
-							// se non sono io
-							if(aX != this.X && aY != this.Y){
-								// se la cella esiste
-								if(this.griglia[aX] != undefined && this.griglia[aX][aY] != undefined){
-									// se ha il virus
-									if(this.griglia[aX][aY].virus)
-										vicini++;
+					if(this.griglia.controllo){
+						// conto i vicini di casa
+						let vicini = 0;
+						for(let x = -1; x < 2; x++){
+							for(let y = -1; y < 2; y++){
+								let aX = this.X + x;
+								let aY = this.Y + y;
+								// se non sono io
+								if(aX != this.X && aY != this.Y){
+									// se la cella esiste
+									if(this.griglia[aX] != undefined && this.griglia[aX][aY] != undefined){
+										// se ha il virus
+										if(this.griglia[aX][aY].virus)
+											vicini++;
+									}
 								}
 							}
 						}
-					}
-					// ora che sò quanti vicini ci sono
-					// posso stabilire la condizione successiva
-					if(vicini < 2 && this.virus){
-						this.virus = false;
-					} else if (vicini < 4 && this.virus){
-						this.virus = true;
-					} else if(this.virus) {
-						this.virus = false;
-					}
-					if(!this.virus && vicini == 3){
-						this.virus = true;
-					}
-					// aggiorno la visualizzazione per l'utente
-					if(this.virus){
-						this.tag.style.backgroundColor = "red";
-					} else {
-						this.tag.style.backgroundColor = "transparent";
+						// per controllo riport il numero di vicini nella cella html
+						this.tag.dataset["vicini"] = vicini;
+						
+						// // ora che sò quanti vicini ci sono
+						// // posso stabilire la condizione successiva
+						// if(vicini < 2 && this.virus){
+						// 	this.virus = false;
+						// } else if (vicini < 4 && this.virus){
+						//	this.virus = true;
+						//} else if(this.virus) {
+						//	this.virus = false;
+						//}
+						//if(!this.virus && vicini == 3){
+						//	this.virus = true;
+						//}
+						//// aggiorno la visualizzazione per l'utente
+						//if(this.virus){
+						//	this.tag.style.backgroundColor = "red";
+						//} else {
+						//	this.tag.style.backgroundColor = "transparent";
+						//}
 					}
 				}
 			}
 			
-			var tableau = [];
-			for(let i=0; i < 50; i++){
-				for(let j=0; j < 50; j++){
-					new cella(tableau, i, j);
-				}
-			}
+			var tableau = new Tabella("target", 50, 50);
 		</script>
 	</body>
 </html>
