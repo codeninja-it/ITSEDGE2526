@@ -1,0 +1,76 @@
+<html>
+	<head>
+		<title>Conway</title>
+		<style>
+			#target {
+				background-color: lightgrey;
+			}
+			
+			#target > .cella {
+				display: inline-block;
+				border: 1px solid gray;
+				width: 2em;
+				height: 2em;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- qui finiranno le nostre celle -->
+		<div id="target"></div>
+		<script>
+			// ricetta della singola cella
+			class cella {
+				constructor(raccoglitore, x, y){
+					// per prima cosa mi segno nel raccoglitore
+					this.griglia = raccoglitore;
+					raccoglitore.push(this);
+					this.X = x;
+					this.Y = y;
+					// variabili globali del nostro oggetto
+					this.virus = false;
+					this.tag = document.createElement("div");
+					// setting dell'interfaccia utente
+					this.tag.classList.add("cella");
+					// logica di inizializzazione
+					let target = document.getElementById("target");
+					target.appendChild(this.tag);
+					setInterval(this.Aggiorna.bind(this), 500);
+					// la cella se cliccata permetterà all'utente
+					// di impostare se contiene il virus oppure no
+					this.tag.addEventListener("click", this.Imposta.bind(this) );
+				}
+				
+				// gestisce l'interazione dell'utente
+				Imposta(){
+					// cambio lo stato della cella
+					this.virus = !this.virus;
+					if(this.virus)
+						this.tag.style.backgroundColor = "red";
+					else
+						this.tag.style.backgroundColor = "transparent";
+				}
+				
+				// deve controllare lo stato della cella
+				Aggiorna(){
+					for(let x = -1; x < 2; x++){
+						for(let y = -1; y < 2; y++){
+							let aX = this.X + x;
+							let aY = this.Y + y;
+							if(aX != this.X && aY != this.Y){
+								
+							}
+						}
+					}
+					//this.tag.innerText = parseInt((Math.random() * 6) + 1);
+				}
+			}
+			
+			var tableau = [];
+			for(let i=0; i < 50; i++){
+				for(let j=0; j < 50; j++){
+					new cella(tableau, i, j);
+				}
+			}
+		</script>
+	</body>
+</html>
