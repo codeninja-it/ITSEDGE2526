@@ -11,6 +11,12 @@ h1 {
 	color: #79befb;
 }
 
+textarea {
+    width: calc(100% - 10em);
+    margin: 2em;
+    height: 5em;
+}
+
 #target {
 	width: fit-content;
 	margin: auto;

@@ -39,10 +39,32 @@ class Tabella {
 	}
 	
 	Esporta(){
-		let txtEsporta = document.getElementById("esportazione");
-		txtEsporta.value = "";
-		for(let i=0; i < this.letture.length; i++){
-			txtEsporta.value += i + "\t" + this.letture[i] + "\n";
+		if(this.controllo){
+			let txtEsporta = document.getElementById("esportazione");
+			txtEsporta.value = "";
+			for(let i=0; i < this.letture.length; i++){
+				txtEsporta.value += i + "\t" + this.letture[i] + "\t" + this.CalcolaPrevisione(i) + "\n";
+			}
 		}
+	}
+	
+	CalcolaPrevisione(quale){
+		let finestra = 10;
+		if(quale < finestra)
+			return 0;
+		// se sono arrivato qui ho abbastanza elementi per fare di conto!
+		// ipotizzando che quale sia 12 e che la mia finestra sia di 10
+		// da che elemento devo contare a quale?
+		let min = ???;
+		let max = ???;
+		// ora che so quali sono i miei limiti
+		let media = ???;
+		// basandomi sulla media, ovvero sulla y del punto medio degli elementi precedenti
+		let scalino = media / (finestra / 2);
+		// ora che sò quanto è alto uno scalino
+		// posso prendere il valore prima di me e sommare ad esso lo scalino per ipotizzare
+		// quanto sarà alto il prossimo punto nel grafico (isteresi)
+		let ipotesi = ???;
+		return ipotesi;
 	}
 }
