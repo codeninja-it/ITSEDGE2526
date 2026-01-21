@@ -28,8 +28,12 @@ class Cella {
 		if(evt.shiftKey){
 			this.virus = null;
 		} else {
+			// mi segno come stava
+			let prima = this.virus;
 			// cambio lo stato della cella
 			this.virus = !this.virus;
+			// ed aggiorno il numero di virus presenti
+			this.Tabella.totVirus = this.Tabella.totVirus + (0 - (prima - this.virus));
 		}
 		this.tag.classList.remove("virus");
 		this.tag.classList.remove("muro");
@@ -63,6 +67,9 @@ class Cella {
 			// per controllo riport il numero di vicini nella cella html
 			this.tag.dataset["vicini"] = vicini;
 			
+			// prendo nota dello stato prima di cambiarlo
+			let vecchioStato = this.virus;
+			
 			// ora che sò quanti vicini ci sono
 			// posso stabilire la condizione successiva
 			if(vicini < 2 && this.virus){
@@ -80,6 +87,13 @@ class Cella {
 				this.tag.classList.add("virus");
 			} else {
 				this.tag.classList.remove("virus");
+			}
+			
+			// aggiorno la situazione mondiale
+			if(vecchioStato == true && !this.virus){
+				this.Tabella.totVirus --;
+			}else if(vecchioStato == false && this.virus){
+				this.Tabella.totVirus ++;
 			}
 		}
 	}

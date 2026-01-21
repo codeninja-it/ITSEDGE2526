@@ -1,6 +1,8 @@
 class Tabella {
 	constructor(target, larghezza, altezza, tempo){
 		this.controllo = false;
+		this.totVirus = 0;
+		this.letture = [];
 		
 		this.tag = document.getElementById(target);
 		let tabella = document.createElement("table");
@@ -21,10 +23,26 @@ class Tabella {
 			this.griglia[x] = riga;
 			tabella.appendChild(elemento);
 		}
+		
+		setInterval(this.AggiornaLetture.bind(this), 100);
+		setInterval(this.Esporta.bind(this), 30 * 1000);
+	}
+	
+	AggiornaLetture(){
+		if(this.controllo)
+			this.letture.push(this.totVirus);
 	}
 	
 	Attiva(){
 		this.controllo = !this.controllo;
 		this.pulsante.innerText = this.controllo ? "Disattiva" : "Attiva";
+	}
+	
+	Esporta(){
+		let txtEsporta = document.getElementById("esportazione");
+		txtEsporta.value = "";
+		for(let i=0; i < this.letture.length; i++){
+			txtEsporta.value += i + "\t" + this.letture[i] + "\n";
+		}
 	}
 }
