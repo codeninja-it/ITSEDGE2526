@@ -14,7 +14,62 @@ class Risolutore {
 		this.iconaFine = "🚧";
 		// e preparo la tabella
 		this.PreparaTabella();
-		
+		// in ultimo aggancio l'evento click del pulsante
+		this.pulsante.addEventListener("click", this.Risolvi.bind(this));
+	}
+	
+	Risolvi(){
+		if(this.inizio == undefined || this.fine == undefined){
+			alert("prima imposta l'inizio e la fine del percorso!");
+			return;
+		}
+			
+		new Passo(this, this.inizio[0], this.inizio[1], this.fine, []);
+	}
+	
+	Refresh(){
+		let maxY = this.celle.length;
+		let maxX = this.celle[0].length;
+		for(let y=0; y < maxY; y++){
+			for(let x=0; x < maxX; x++){
+				let cella = this.DammiCella(y, x);
+				if(this.celle[y][x] == true){
+					// è una strada
+					cella.innerHTML = this.iconaVuoto;
+				} else {
+					// è un muro
+					cella.innerHTML = this.iconaMuro;
+				}
+				if(this.inizio[0] == y && this.inizio[1] == x){
+					// è la cella di partenza!
+					cella.innerHTML = this.iconaInizio;
+				} else if (this.fine[0] == y && this.fine[1] == x){
+					// è la cella di arrivo!
+					cella.innerHTML = this.iconaFine;
+				}
+				if(this.InSoluzione(y, x)){
+					cella.style.backgroundColor = "lightgreen";
+				} else {
+					cella.style.backgroundColor = "none";
+				}				
+			}
+		}
+	}
+	
+	InSoluzione(y, x){
+		if(this.soluzione == undefined)
+			return false;
+		for(let i=0; i < this.soluzione.length; i++){
+			let passo = this.soluzione[i];
+			if(passo[0] == y && passo[1] == x)
+				return true;
+		}
+		return false;
+	}
+	
+	DammiCella(y, x){
+		let riga = this.tabella.childNodes[y];
+		return riga.childNodes[x];
 	}
 	
 	PreparaTabella(){

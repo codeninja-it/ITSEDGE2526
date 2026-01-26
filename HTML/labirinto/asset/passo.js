@@ -15,6 +15,7 @@ class Passo {
 		// controllo l'unica condizione positiva che ho
 		if(y == arrivo[0] && x == arrivo[1]){
 			this.StampaPercorso(labirinto, storia);
+			return;
 		}
 		// segno le mie coordinate in storia
 		storia.push([y, x]);
