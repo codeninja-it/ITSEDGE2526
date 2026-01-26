@@ -7,7 +7,14 @@ class Risolutore {
 		// aggancio le dimensioni che avrà il labirinto
 		this.larghezza = larghezza;
 		this.altezza = altezza;
+		// mi segno le icone da usare
+		this.iconaVuoto = "&nbsp;";
+		this.iconaMuro = "🧱";
+		this.iconaInizio = "🚎";
+		this.iconaFine = "🚧";
+		// e preparo la tabella
 		this.PreparaTabella();
+		
 	}
 	
 	PreparaTabella(){
@@ -26,7 +33,7 @@ class Risolutore {
 			for(let x=0; x < this.larghezza; x++){
 				// la creo
 				let cella = document.createElement("td");
-				cella.innerHTML = "&nbsp;";
+				cella.innerHTML = this.iconaVuoto;
 				rigaDati[x] = true;
 				// ne attivo i triggers
 				cella.addEventListener("click", this.Cambia.bind(this));
@@ -52,31 +59,31 @@ class Risolutore {
 			if(this.inizio != undefined){
 				for(let i=0; i < this.tabella.childNodes.length; i++)
 					for(let j=0; j < this.tabella.childNodes[i].childNodes.length; j++)
-						if(this.tabella.childNodes[i].childNodes[j].innerHTML == "S")
-							this.tabella.childNodes[i].childNodes[j].innerHTML = "&nbsp;";
+						if(this.tabella.childNodes[i].childNodes[j].innerHTML == this.iconaInizio)
+							this.tabella.childNodes[i].childNodes[j].innerHTML = this.iconaVuoto;
 			}
 			// imposto l'attuale
-			evento.target.innerHTML = "S";
+			evento.target.innerHTML = this.iconaInizio;
 			this.inizio = [y, x];
 		} else if (evento.ctrlKey){
 			// resetto la precedente
 			if(this.fine != undefined){
 				for(let i = 0; i < this.tabella.childNodes.length; i++)
 					for(let j = 0; j < this.tabella.childNodes[i].childNodes.length; j++)
-						if(this.tabella.childNodes[i].childNodes[j].innerHTML == "E")
-							this.tabella.childNodes[i].childNodes[j].innerHTML = "&nbsp;";
+						if(this.tabella.childNodes[i].childNodes[j].innerHTML == this.iconaFine)
+							this.tabella.childNodes[i].childNodes[j].innerHTML = this.iconaVuoto;
 			}
 			// ed imposto la nuova cella
-			evento.target.innerHTML = "E";
+			evento.target.innerHTML = this.iconaFine;
 			this.fine = [y, x];
 		} else {
 			// e con quelle controllo il suo stato precedente per impostare l'attuale
 			this.celle[y][x] = !this.celle[y][x];
 			// ed aggiorno la grafica per il mio utente
 			if(this.celle[y][x])
-				evento.target.innerHTML = "&nbsp;";
+				evento.target.innerHTML = this.iconaVuoto;
 			else
-				evento.target.innerHTML = "X";
+				evento.target.innerHTML = this.iconaMuro;
 		}
 	}
 }
