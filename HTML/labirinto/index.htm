@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>Labirinto!</title>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="asset/stile.css" />
+		<script src="asset/risolutore.js"></script>
+	</head>
+	<body>
+		<h1>Labirinto!</h1>
+		<p>
+			Per poter risolvere il labirinto, crealo cliccando sulle celle della tabella
+			e poi clicca sul pulsante risolvi!
+		</p>
+		
+		<table id="lavagna"></table>
+		
+		<button id="btnRisolvi">risolvi</button>
+		
+		<script>
+			var labirinto = new Risolutore("lavagna", "btnRisolvi", 10, 10);
+		</script>
+	</body>
+</html>
