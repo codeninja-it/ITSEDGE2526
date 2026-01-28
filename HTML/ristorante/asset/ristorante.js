@@ -10,6 +10,14 @@ class Ristorante {
 		this.piatti = piatti;
 		this.comande = comande;
 	}
+	
+	GestisciTavoli(idTabella){
+		this.tabella = document.getElementById(idTabella);
+		for(let i=0; i < this.tavoli.length; i++){
+			this.tavoli[i].Rendering(this.tabella);
+		}
+	}
+	
 }
 
 var arezzo = new Ristorante("Arezzo");
