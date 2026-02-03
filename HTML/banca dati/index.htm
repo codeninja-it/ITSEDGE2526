@@ -1,16 +1,92 @@
 <html>
 	<head>
+		<title>DB Manager</title>
+		<meta charset="UTF-8" />
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+		
 		<script src="asset/riga.js"></script>
 		<script src="asset/tabella.js"></script>
 		<script src="asset/db.js"></script>
 	</head>
 	<body>
-		<h1>DB Manager</h1>
+		<h1 class="bg-primary p-3 mb-5 text-white">DB Manager</h1>
 		
-		<div id="target"></div>
+		<div class="container">
+			
+			<div class="input-group">
+				<input class="form-control" id="txtRicerca" placeholder="Filtra..." />
+				<button class="btn btn-primary" title="ricerca" id="btnRicerca">
+					<i class="bi bi-search"></i>
+				</button>
+			</div>
+			
+			<div class="table-responsive my-3">
+				<table class="table table-sm table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Categoria</th>
+						</tr>
+					</thead>
+					<tbody id="target"></tbody>
+				</table>
+			</div>
+			
+			<div class="input-group">
+				<input class="form-control" id="chiave" placeholder="Id..." />
+				<input class="form-control" id="descrittore" placeholder="Categoria..." />
+				<button class="btn btn-success" title="inserisci nuov record" id="btnAggiungi">
+					<i class="bi bi-plus"></i>
+				</button>
+			</div>
+		
+		</div>
 		
 		<script>
+			var tabella = new Tabella("categorie", ["idcategoria", "categoria"]);
+			tabella
+				.add([1, "Antipasti"])
+				.add([2, "Pizze"])
+				.add([3, "Contorni"])
+				.add([4, "Dolci"])
+				.add([5, "Bevande"]);
+				
+			function Refresh(destinazione, filtro = ""){
+				destinazione.innerHTML = "";
+				tabella
+					.forEach(r => {
+						if(r.celle.categoria.indexOf(filtro) > -1)
+							destinazione.innerHTML += "<tr><td>" + r.celle.idcategoria + "</td><td>" + r.celle.categoria + "</td></tr>";
+					});
+			}
+		
+			// aggancio tutto ciò che mi serve
 			var target = document.getElementById("target");
+			
+			Refresh(target);
+			
+			var txtRicerca = document.getElementById("txtRicerca");
+			var btnRicerca = document.getElementById("btnRicerca");
+			
+			btnRicerca.onclick = e => {
+				Refresh(target, txtRicerca.value);
+			};
+			
+			var chiave = document.getElementById("chiave");
+			var descrittore = document.getElementById("descrittore");
+			var btnAggiungi = document.getElementById("btnAggiungi");
+			
+			btnAggiungi.onclick = e => {
+				tabella.add([ chiave.value, descrittore.value ]);
+				Refresh(target, txtRicerca.value);
+			};
+			
+			
 			
 		</script>
 	</body>
