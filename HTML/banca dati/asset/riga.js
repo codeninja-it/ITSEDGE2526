@@ -2,22 +2,27 @@
 // una riga qualunque...
 class Riga {
 	
-	constructor(celle = []){
-		this.celle = celle;
+	constructor(intestazioni = [], dati = []){
+		this.celle = {};
+		for(let i=0; i < intestazioni.length; i++){
+			let chiave = intestazioni[i];
+			let valore = dati[i];
+			this.celle[chiave] = valore;
+		}
 	}
 	
 	//
-	// let riga = new Riga(["1", "Jhon", "Doe", "0575123456"]);
-	// riga.where( campi => { return campi[1] == "Jhon"; } );
-	// riga.where( riga => { return riga[1] == "Filippo"; } );
-	// riga.where( r => { return r[3] == "0575123456"; } );
+	// let riga = new Riga(
+	//						["idcontatto", "nome", "cognome", "telefono"],
+	//						["1", "Jhon", "Doe", "0575123456"]);
+	// riga.where( r => r.nome == "Jhon" } );
 	//
 	where(confronto){
 		return confronto(this.celle);
 	}
 	
 	//
-	// let selezionata = riga.find( r => { return r[1] == "Jhon"; });
+	// let selezionata = riga.find( r =>  r.nome == "Jhon" && r.cognome == "Doe" );
 	//
 	find(confronto){
 		if( confronto(this.celle) )

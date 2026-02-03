@@ -1,31 +1,52 @@
 
 // una tabella qualunque
+/*
+	// CREATE
+	let tabella = new Tabella("categorie", ["idcategoria", "categoria"]);
+	
+	// INSERT INTO
+	tabella
+		.add([1, "Antipasti"])
+		.add([2, "Pizze"])
+		.add([3, "Bibite"]);
+	
+	// UPDATE WHERE
+	tabella.find(r => r.idcategoria == 2).categoria = "PIZZE";
+
+	// DELETE
+	tabella.remove(r => r.categoria == "PIZZE");
+
+	// SELECT
+	tabella.forEach(r => {
+		console.log(r.idcategoria + "\t" + r.categoria);
+	});
+*/
 class Tabella{
 	
-	constructor(nome, righe = []){
+	constructor(nome, colonne = [], righe = []){
 		this.nome = nome;
+		this.colonne = colonne;
 		this.righe = righe;
 	}
 	
-	//
-	// let tabella = new Tabella("categorie", [
-	//		new Riga(["1", "Pizze"]),
-	//		new Riga(["2", "Antipasti"]),
-	//		new Riga(["3", "Primi terra"]),
-	//		new Riga(["3", "Primi mare"]),
-	//	]);
-	//	let risultato = tabella.where(riga => { return riga[1] == "Primi Terra" || riga[1] == "Antipasti"; });
-	//
-	
-	selectAll(operazione){
-		for(let i=0; i < this.righe.length; i++){
-			operazione(this.righe[i]);
-		}
+	add(celle){
+		this.righe.push( new Riga(this.colonne, celle) );
+		return this;
 	}
 	
-	add(riga){
-		this.righe.push(riga);
-		return this;
+	/*
+		
+		db.
+		from(t => t.nome == "categorie")
+		.where(r => r.idcategoria < 3 )
+		.forEach(r => r.categoria = r.categoria.toUpperCase() )
+	
+	*/
+	
+	forEach(operazione){
+		for(let i=0; i < this.righe. length; i++){
+			operazione( this.righe[i] );
+		}
 	}
 	
 	
@@ -33,8 +54,8 @@ class Tabella{
 		
 		db.
 		from(t => {return t.nome = "categorie"})
-		.find(r => {return r[1] == "antipasti"})
-		.celle[1] = "Antipasti";
+		.find(r => {return r.categoria == "antipasti"})
+		.celle.categoria = "Antipasti";
 	
 	*/
 	
@@ -49,29 +70,30 @@ class Tabella{
 	
 	/*
 	tabella
-		.remove(r => {return r[1] == "antipasti";})
-		.remove(r => {return r[2] == "pizze"});
+		.remove(r => {return r.categoria == "antipasti";})
+		.remove(r => {return r.categoria == "pizze"});
 	*/
 	
 	remove(condizione){
 		let buffer = [];
-		for(let i=0; i < this.righe.length; i++){
-			let riga = this.righe[i];
-			if(!condizione(riga)){
+		
+		this.forEach(riga => {
+			if(!condizione(riga))
 				buffer.push(riga);
-			}
-		}
+		});		
+		
 		this.righe = buffer;
 		return this;
 	}
 	
 	where(condizione){
 		let buffer = [];
-		for(let i = 0; i < this.righe.length; i++){
-			let riga = this.righe[i];
-			if( riga.where(condizione) )
+		
+		this.forEach(riga => {
+			if(condizione(riga))
 				buffer.push(riga);
-		}
+		});
+		
 		return new Tabella("", buffer);
 	}
 	
