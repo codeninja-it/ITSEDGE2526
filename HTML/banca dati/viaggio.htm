@@ -32,6 +32,7 @@
 							<th>Latitudine</th>
 							<th>Longitudine</th>
 							<th>Luogo</th>
+							<th>Distanza</th>
 						</tr>
 					</thead>
 					<tbody id="target"></tbody>
@@ -39,8 +40,6 @@
 			</div>
 			
 			<div class="input-group">
-				<input class="form-control" id="lat" type="number" step="0.00001" placeholder="Latitudine..." />
-				<input class="form-control" id="lon" type="number" step="0.00001" placeholder="Longitudine..." />
 				<input class="form-control" id="luogo" placeholder="Luogo..." />
 				<button class="btn btn-success" title="inserisci nuovo record" id="btnAggiungi">
 					<i class="bi bi-plus"></i>
@@ -50,7 +49,7 @@
 		</div>
 		
 		<script>
-			var tabella = new Tabella("tappe", ["lat", "lon", "luogo"]);
+			var tabella = new Tabella("tappe", ["lat", "lon", "luogo", "distanza"]);
 			var partenza = {
 							lat : 43.5171442,
 							lon: 11.7639282
@@ -61,7 +60,12 @@
 				tabella
 					.forEach(r => {
 						if(r.celle.luogo.indexOf(filtro) > -1)
-							destinazione.innerHTML += "<tr><td>" + r.celle.lat + "</td><td>" + r.celle.lon + "</td><td>" + r.celle.luogo + "</td></tr>";
+							destinazione.innerHTML += "<tr>" +
+							"<td>" + r.celle.lat + "</td>" +
+							"<td>" + r.celle.lon + "</td>" +
+							"<td>" + r.celle.luogo + "</td>" + 
+							"<td>" + r.celle.distanza + "</td>" + 
+							"</tr>";
 					});
 			}
 		
@@ -77,8 +81,6 @@
 				Refresh(target, txtRicerca.value);
 			};
 			
-			var numLatitudine = document.getElementById("lat");
-			var numLongitudine = document.getElementById("lon");
 			var txtLuogo = document.getElementById("luogo");
 			var btnAggiungi = document.getElementById("btnAggiungi");
 			
@@ -89,18 +91,10 @@
 					return;
 				}
 				
-				// se lo sa e sà dove si trova, inserisco la riga così com'è
-				if (numLatitudine.value != "" && numLongitudine.value != "" && txtLuogo.value != ""){
-					tabella.add([ numLatitudine.value, numLongitudine.value, txtLuogo.value ]);
-				} else {
-					// se non ne è sicuro (della posizione)
-					// qui intervengo cercandola online
-					
-					RecuperaOnline( txtLuogo.value, tabella, e => {
-						Refresh(target, txtRicerca.value);
-					});
-					txtLuogo.value = "";
-				}
+				RecuperaOnline( txtLuogo.value, tabella, e => {
+					Refresh(target, txtRicerca.value);
+				});
+				txtLuogo.value = "";
 				
 				
 				Refresh(target, txtRicerca.value);
@@ -132,10 +126,24 @@
 						if(dati.length > 0){
 							let luogo = dati[0];
 							console.log(luogo.display_name);
-							console.log(luogo.lat);
-							console.log(luogo.lon);
-							destinazione.add([luogo.lat, luogo.lon, luogo.display_name]);
-							callback();
+							if(destinazione.find(luogo.display_name) == undefined){
+								console.log(luogo.lat);
+								console.log(luogo.lon);
+								// calcolo la distanza
+								let dLat = partenza.lat - luogo.lat;
+								let dLon = partenza.lon - luogo.lon;
+								let distanza = Math.sqrt( (dLat ** 2) + (dLon ** 2) );
+								// e inserisco anche quella in riga
+								destinazione.add([luogo.lat, luogo.lon, luogo.display_name, distanza]);
+								
+								// posso riordinare le mie righe
+								// ricordandomi che se gli rendo un numero negativo le inverte
+								destinazione.righe.sort( (primo, secondo) => { 
+									return primo.celle.distanza - secondo.celle.distanza;
+								} );
+								
+								callback();
+							}
 						}
 					});
 				
