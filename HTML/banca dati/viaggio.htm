@@ -79,12 +79,39 @@
 			var btnAggiungi = document.getElementById("btnAggiungi");
 			
 			btnAggiungi.onclick = e => {
-				tabella.add([ numLatitudine.value, numLongitudine.value, txtLuogo.value ]);
+				// escludo che non sappia dove andare
+				if(txtLuogo.value == ""){
+					alert("Dimmi almeno dove vuoi andare!");
+					return;
+				}
+				
+				// se lo sa e sà dove si trova, inserisco la riga così com'è
+				if (numLatitudine.value != "" && numLongitudine.value != "" && txtLuogo.value != ""){
+					tabella.add([ numLatitudine.value, numLongitudine.value, txtLuogo.value ]);
+				} else {
+					// se non ne è sicuro (della posizione)
+					// qui intervengo cercandola online
+					
+					tabella.add( RecuperaOnline( txtLuogo.value ) );
+					//RecuperaOnline(txtLuogo.value);
+				}
+				
+				
 				Refresh(target, txtRicerca.value);
 			};
 			
-			
-			
+			// RecuperaOnline("Guido Monaco Arezzo");
+			function RecuperaOnline(nome){
+				let url = "https://nominatim.openstreetmap.org"; 
+				url +=	"/search?";
+				url += "q=" + nome; 
+				url += "&format=json";
+				url += "&limit=1"; 
+				url += "&addressdetails=1";
+				console.log(url);
+				
+				return [null, null, nome];
+			}
 			
 		</script>
 	</body>
