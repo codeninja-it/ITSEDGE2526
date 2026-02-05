@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<title>Il mio viaggio!</title>
+		<meta charset="UTF-8" />
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+		
+		<script src="asset/riga.js"></script>
+		<script src="asset/tabella.js"></script>
+		<script src="asset/db.js"></script>
+	</head>
+	<body>
+		<h1 class="bg-primary p-3 mb-5 text-white">Il mio viaggio!</h1>
+		
+		<div class="container">
+			
+			<div class="input-group">
+				<input class="form-control" id="txtRicerca" placeholder="Filtra..." />
+				<button class="btn btn-primary" title="ricerca" id="btnRicerca">
+					<i class="bi bi-search"></i>
+				</button>
+			</div>
+			
+			<div class="table-responsive my-3">
+				<table class="table table-sm table-hover">
+					<thead>
+						<tr>
+							<th>Latitudine</th>
+							<th>Longitudine</th>
+							<th>Luogo</th>
+						</tr>
+					</thead>
+					<tbody id="target"></tbody>
+				</table>
+			</div>
+			
+			<div class="input-group">
+				<input class="form-control" id="lat" type="number" step="0.00001" placeholder="Latitudine..." />
+				<input class="form-control" id="lon" type="number" step="0.00001" placeholder="Longitudine..." />
+				<input class="form-control" id="luogo" placeholder="Luogo..." />
+				<button class="btn btn-success" title="inserisci nuovo record" id="btnAggiungi">
+					<i class="bi bi-plus"></i>
+				</button>
+			</div>
+		
+		</div>
+		
+		<script>
+			var tabella = new Tabella("tappe", ["lat", "lon", "luogo"]);
+				
+			function Refresh(destinazione, filtro = ""){
+				destinazione.innerHTML = "";
+				tabella
+					.forEach(r => {
+						if(r.celle.luogo.indexOf(filtro) > -1)
+							destinazione.innerHTML += "<tr><td>" + r.celle.lat + "</td><td>" + r.celle.lon + "</td><td>" + r.celle.luogo + "</td></tr>";
+					});
+			}
+		
+			// aggancio tutto ciò che mi serve
+			var target = document.getElementById("target");
+			
+			Refresh(target);
+			
+			var txtRicerca = document.getElementById("txtRicerca");
+			var btnRicerca = document.getElementById("btnRicerca");
+			
+			btnRicerca.onclick = e => {
+				Refresh(target, txtRicerca.value);
+			};
+			
+			var numLatitudine = document.getElementById("lat");
+			var numLongitudine = document.getElementById("lon");
+			var txtLuogo = document.getElementById("luogo");
+			var btnAggiungi = document.getElementById("btnAggiungi");
+			
+			btnAggiungi.onclick = e => {
+				tabella.add([ numLatitudine.value, numLongitudine.value, txtLuogo.value ]);
+				Refresh(target, txtRicerca.value);
+			};
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
