@@ -51,6 +51,10 @@
 		
 		<script>
 			var tabella = new Tabella("tappe", ["lat", "lon", "luogo"]);
+			var partenza = {
+							lat : 43.5171442,
+							lon: 11.7639282
+						};
 				
 			function Refresh(destinazione, filtro = ""){
 				destinazione.innerHTML = "";
@@ -92,8 +96,10 @@
 					// se non ne è sicuro (della posizione)
 					// qui intervengo cercandola online
 					
-					tabella.add( RecuperaOnline( txtLuogo.value ) );
-					//RecuperaOnline(txtLuogo.value);
+					RecuperaOnline( txtLuogo.value, tabella, e => {
+						Refresh(target, txtRicerca.value);
+					});
+					txtLuogo.value = "";
 				}
 				
 				
@@ -101,14 +107,37 @@
 			};
 			
 			// RecuperaOnline("Guido Monaco Arezzo");
-			function RecuperaOnline(nome){
+			function RecuperaOnline(nome, destinazione, callback){
+				// 1) costruisco il mio link
 				let url = "https://nominatim.openstreetmap.org"; 
 				url +=	"/search?";
 				url += "q=" + nome; 
 				url += "&format=json";
 				url += "&limit=1"; 
 				url += "&addressdetails=1";
-				console.log(url);
+				
+				// 2) eseguo la mio richiesta al server
+				fetch(url) // come promessa di quello che succederà in futuro
+					// 3) se la risposta è positiva, 
+					//    creo una nuova promessa che dovrà
+					//    passarmi il corpo della risposta in json
+					.then(risposta => {
+						if(risposta.ok){
+							return risposta.json();
+						}
+					})
+					// 4) se ho ricevuto un json
+					//		per adesso lo stampo in console
+					.then(dati => {
+						if(dati.length > 0){
+							let luogo = dati[0];
+							console.log(luogo.display_name);
+							console.log(luogo.lat);
+							console.log(luogo.lon);
+							destinazione.add([luogo.lat, luogo.lon, luogo.display_name]);
+							callback();
+						}
+					});
 				
 				return [null, null, nome];
 			}
