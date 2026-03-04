@@ -1,6 +1,6 @@
 <html>
 	<body>
-		<input id="daCercare" placeholder="email..." />
+		<input id="daCercare" placeholder="chi vuoi trovare..." />
 		<button onclick="Cerca();">cerca</button>
 		
 		<table>
@@ -19,9 +19,28 @@
 		<script>
 		
 			function Cerca(){
-				// chiamare db.php?q=rossi
-				// e quando lo riceve creare in 
-				// destinazione una riga per ogni elemento
+				let campo = document.getElementById("daCercare");
+				let valore = campo.value;
+				let url = "db.php?q=" + valore;
+				fetch(url)
+				.then(r => {
+					return r.json();
+				})
+				.then(d => {
+					let tabella = document.getElementById("destinazione");
+					tabella.innerHTML = "";
+					for(let i=0; i < d.length; i++){
+						let riga = "";
+						let c = d[i];
+						riga += "<tr>";
+							riga += "<td>" + c.nome + "</td>";
+							riga += "<td>" + c.cognome + "</td>";
+							riga += "<td>" + c.email + "</td>";
+							riga += "<td>" + c.tipo + "</td>";
+						riga += "</tr>";
+						tabella.innerHTML += riga;
+					}
+				});
 			}
 		
 		</script>
