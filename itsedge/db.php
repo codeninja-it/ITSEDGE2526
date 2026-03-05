@@ -1,4 +1,6 @@
 <?php
+	// attivo la sessione
+	session_start();
 	// db.php?q=rossi
 	$ricerca = "";
 	
@@ -8,14 +10,20 @@
 	$dbcon = new mysqli("127.0.0.1", "root", "", "itsphp");
 
 	$sql = "SELECT contatti.nome, contatti.cognome,
-			contatti.email,	tipi.tipo
-			FROM contatti
-			LEFT JOIN tipi ON contatti.idtipo=tipi.idtipo
-			WHERE CONCAT(contatti.email, contatti.nome, contatti.cognome, tipi.tipo) 
-			LIKE '%{$ricerca}%'
-			ORDER BY contatti.nome";
+contatti.email,	tipi.tipo AS tipologia
+FROM contatti
+LEFT JOIN tipi ON contatti.idtipo=tipi.idtipo
+WHERE CONCAT(contatti.email, contatti.nome, contatti.cognome, tipi.tipo)			
+LIKE '%{$ricerca}%'
+ORDER BY contatti.nome";
+			
+	// salvo l'ultima query nella sessione utente
+	$_SESSION["ultima_select"] = $sql;
 
 	$dati = $dbcon->query($sql);
+	
+	// ed anche il numero di righe trovate
+	$_SESSION["righe_trovate"] = $dati->num_rows;
 							
 							
 	$flusso = [];
