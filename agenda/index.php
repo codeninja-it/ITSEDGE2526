@@ -18,7 +18,13 @@
 					?>
 						Benvenuto in agenda! il tuo nuovo sistema di gestione scadenze!
 					<?php
-					echo( Tabella("SELECT idutente, nome, cognome FrROM contatti;") );
+					echo( Griglia(
+							"SELECT concat(nome, ' ', cognome) as nomeCompleto, email
+							FROM contatti;",
+							4,
+							"nomeCompleto"
+						)
+					);
 				}
 			?>			
 		</div>
