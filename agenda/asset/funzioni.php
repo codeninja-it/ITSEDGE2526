@@ -83,8 +83,8 @@
 					$corpo .= "<td>{$cella}</td>";
 				}
 				$pk = $riga[$chiave];
-				$corpo .= "<td><a href='?plugin={$plugin}&act=mod&id={$pk}' class='btn btn-warning'>modifica</a></td>";
-				$corpo .= "<td><a href='?plugin={$plugin}&act=del&id={$pk}' class='btn btn-danger'>cancella</a></td>";
+				$corpo .= "<td style='width: 1%'><a href='?plugin={$plugin}&act=mod&id={$pk}' class='btn btn-warning'>modifica</a></td>";
+				$corpo .= "<td style='width: 1%'><a href='?plugin={$plugin}&act=del&id={$pk}' class='btn btn-danger'>cancella</a></td>";
 			$corpo .= "</tr>";
 		}
 
@@ -133,14 +133,23 @@
 		";
 	}
 	
-	function Tendina($descrizione, $id){
+	function Tendina($label, $tabella, $pk, $descrittore, $valore = 0){
+		$dati = EseguiSQL("SELECT {$pk}, {$descrittore} 
+							FROM {$tabella}
+							ORDER BY {$descrittore};");
+		$buffer = "<option value=0>{$descrittore}...</option>";
+		while($riga = $dati->fetch_assoc()){
+			if($riga[$pk] == $valore){
+				$buffer .= "<option selected value={$riga[$pk]}>{$riga['tipo']}</option>";
+			} else {
+				$buffer .= "<option value={$riga[$pk]}>{$riga['tipo']}</option>";
+			}
+		}
 		return "
 		<div>
-			<label for='{$id}'>{$descrizione}</label>
-			<select id='{$id}' name='{$id}' class='form-select'>
-				<option value=1>personale</option>
-				<option value=2>lavoro</option>
-				<option value=3>boh</option>
+			<label for='{$pk}'>{$label}</label>
+			<select id='{$pk}' name='{$pk}' class='form-select'>
+				{$buffer}
 			</select>
 		</div>
 		";
