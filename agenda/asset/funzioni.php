@@ -16,6 +16,12 @@
 		}
 	}
 	
+	function Elimina($tabella, $pk, $valore){
+		$conn = ApriDB();
+		EseguiSQL("DELETE FROM {$tabella} WHERE {$pk}={$valore} LIMIT 1;");
+		return $conn->affected_rows == 1;
+	}
+	
 	function Griglia($sql, $larghezza = 3, $intestazione = "nome"){
 		// ottengo i dati
 		$dati = EseguiSQL($sql);
@@ -53,7 +59,7 @@
 		";
 	}
 	
-	function Tabella($sql){
+	function Tabella($sql, $plugin, $chiave){
 		$dati = EseguiSQL($sql);
 		if($dati == false || $dati->num_rows == 0)
 			return "";
@@ -63,7 +69,8 @@
 			$intestazione .= "<tr>";
 			foreach($campi as $campo){
 				$intestazione .= "<th>{$campo->name}</th>";
-			}				
+			}
+			$intestazione .= "<th></th>";
 			$intestazione .= "</tr>";
 		}
 		
@@ -73,7 +80,9 @@
 			$corpo .="<tr>";
 				foreach($riga as $cella){
 					$corpo .= "<td>{$cella}</td>";
-				}			
+				}
+				$pk = $riga[$chiave];
+				$corpo .= "<td><a href='?plugin={$plugin}&act=del&id={$pk}' class='btn btn-danger'>cancella</a></td>";
 			$corpo .= "</tr>";
 		}
 
@@ -91,4 +100,33 @@
 				</div>";
 	}
 	
+	function Form($contenuto, $destinazione = ""){
+		return "
+			<form action='{$destinazione}' method='POST'>
+				{$contenuto}
+				<div class='text-end m-3'>
+					<button type='submit' class='btn btn-success'>salva</button>
+					<button type='reset' class='btn btn-secondary'>annulla</button>
+				</div>
+			</form>
+		";
+	}
 	
+	function Campo($descrizione, $id, $valore = "", $tipo = "text"){
+		if ($tipo == "textarea"){
+			return "
+			<div>
+				<label for='{$id}'>{$descrizione}</label>
+				<textare id='{$id}' name='{$id}'
+					class='form-control'>{$valore}</textare>
+			</div>
+			";
+		}
+		return "
+		<div>
+			<label for='{$id}'>{$descrizione}</label>
+			<input id='{$id}' name='{$id}'
+				type='{$tipo}' value='{$valore}' class='form-control' />
+		</div>
+		";
+	}
