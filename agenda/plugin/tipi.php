@@ -20,6 +20,28 @@
 				Campo("Tipologia contatto", "tipo") // il campo tipo 
 			)
 		);
+	} else if(isset($_GET["act"]) && $_GET["act"] == "mod"){
+		// se l'utente vuole modificare un'anagrafica
+		// sanando la richiesta che ho ricevuto
+		$id = intval($_GET["id"]);
+		// applico eventuali modifiche
+		if(isset($_POST["tipo"])){
+			$tipo = addslashes($_POST["tipo"]);
+			EseguiSQL("UPDATE tipi SET tipo='{$tipo}' WHERE idtipo={$id} LIMIT 1;");
+			echo("<div class='alert alert-success'>Modifica avvenuta!</div>");
+		}
+		// quindi recupero l'anagrafica dell'utente
+		
+		// recuper l'attuale anagrafica
+		$dati = EseguiSQL("SELECT * FROM tipi WHERE idtipo={$id} LIMIT 1;");
+		$riga = $dati->fetch_assoc();
+		// e la uso per generare il form
+		echo(
+			Form(
+				Campo("Tipologia contatto", "tipo", $riga["tipo"])
+			)
+		);
+		
 	} else {
 		// se nessuno mi dice nulla, gli faccio vedere
 		// la lista dei tipi che conosco (quelli in DB)

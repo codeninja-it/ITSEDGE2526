@@ -71,6 +71,7 @@
 				$intestazione .= "<th>{$campo->name}</th>";
 			}
 			$intestazione .= "<th></th>";
+			$intestazione .= "<th></th>";
 			$intestazione .= "</tr>";
 		}
 		
@@ -82,6 +83,7 @@
 					$corpo .= "<td>{$cella}</td>";
 				}
 				$pk = $riga[$chiave];
+				$corpo .= "<td><a href='?plugin={$plugin}&act=mod&id={$pk}' class='btn btn-warning'>modifica</a></td>";
 				$corpo .= "<td><a href='?plugin={$plugin}&act=del&id={$pk}' class='btn btn-danger'>cancella</a></td>";
 			$corpo .= "</tr>";
 		}
@@ -127,6 +129,19 @@
 			<label for='{$id}'>{$descrizione}</label>
 			<input id='{$id}' name='{$id}'
 				type='{$tipo}' value='{$valore}' class='form-control' />
+		</div>
+		";
+	}
+	
+	function Tendina($descrizione, $id){
+		return "
+		<div>
+			<label for='{$id}'>{$descrizione}</label>
+			<select id='{$id}' name='{$id}' class='form-select'>
+				<option value=1>personale</option>
+				<option value=2>lavoro</option>
+				<option value=3>boh</option>
+			</select>
 		</div>
 		";
 	}
